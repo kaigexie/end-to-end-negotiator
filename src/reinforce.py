@@ -92,43 +92,43 @@ def main():
         help='output model file')
     parser.add_argument('--context_file', type=str,
         help='context file')
-    parser.add_argument('--temperature', type=float, default=config.rl_temperature,
+    parser.add_argument('--temperature', type=float, default=config.temperature,
         help='temperature')
     parser.add_argument('--cuda', action='store_true', default=config.cuda,
         help='use CUDA')
-    parser.add_argument('--verbose', action='store_true', default=config.verbose,
+    parser.add_argument('--verbose', action='store_true',
         help='print out converations')
     parser.add_argument('--seed', type=int, default=config.seed,
         help='random seed')
-    parser.add_argument('--score_threshold', type=int, default=config.rl_score_threshold,
+    parser.add_argument('--score_threshold', type=int,
         help='successful dialog should have more than score_threshold in score')
     parser.add_argument('--log_file', type=str, default='',
         help='log successful dialogs to file for training')
     parser.add_argument('--smart_bob', action='store_true', default=False,
         help='make Bob smart again')
-    parser.add_argument('--gamma', type=float, default=config.rl_gamma,
+    parser.add_argument('--gamma', type=float,
         help='discount factor')
-    parser.add_argument('--eps', type=float, default=config.rl_eps,
+    parser.add_argument('--eps', type=float,
         help='eps greedy')
     parser.add_argument('--nesterov', action='store_true', default=config.nesterov,
         help='enable nesterov momentum')
-    parser.add_argument('--momentum', type=float, default=config.rl_momentum,
+    parser.add_argument('--momentum', type=float,
         help='momentum for sgd')
-    parser.add_argument('--lr', type=float, default=config.rl_lr,
+    parser.add_argument('--lr', type=float,
         help='learning rate')
-    parser.add_argument('--clip', type=float, default=config.rl_clip,
+    parser.add_argument('--clip', type=float,
         help='gradient clip')
-    parser.add_argument('--rl_lr', type=float, default=config.rl_reinforcement_lr,
+    parser.add_argument('--rl_lr', type=float,
         help='RL learning rate')
-    parser.add_argument('--rl_clip', type=float, default=config.rl_reinforcement_clip,
+    parser.add_argument('--rl_clip', type=float,
         help='RL gradient clip')
     parser.add_argument('--ref_text', type=str,
         help='file with the reference text')
-    parser.add_argument('--bsz', type=int, default=config.rl_bsz,
+    parser.add_argument('--bsz', type=int,
         help='batch size')
-    parser.add_argument('--sv_train_freq', type=int, default=config.rl_sv_train_freq,
+    parser.add_argument('--sv_train_freq', type=int,
         help='supervision train frequency')
-    parser.add_argument('--nepoch', type=int, default=config.rl_nepoch,
+    parser.add_argument('--nepoch', type=int,
         help='number of epochs')
     parser.add_argument('--visual', action='store_true', default=config.plot_graphs,
         help='plot graphs')
