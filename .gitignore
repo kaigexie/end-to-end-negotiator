@@ -1,1 +1,8 @@
 __pycache__
+.DS_Store
+src/.DS_Store
+src/images/.DS_Store
+src/models/.DS_Store
+src/data/.DS_Store
+src/data/negotiate/.DS_Store
+.*.swp
