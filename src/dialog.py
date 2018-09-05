@@ -167,7 +167,7 @@ class Dialog(object):
 
         while True:
             # produce an utterance
-            out = writer.write()
+            out = writer.write() # list of words, str, len = max_words
 
             self.metrics.record('sent_len', len(out))
             self.metrics.record('full_match', out)

@@ -221,6 +221,12 @@ class WordCorpus(object):
             inpt = data.narrow(0, 0, data.size(0) - 1)
             tgt = data.narrow(0, 1, data.size(0) - 1).view(-1)
 
+            # ctx: (6, <=batch_size)
+            # data: (max_len, <=batch_size)
+            # sel_tgt: (6*<=batch_size, )
+            # inpt: (max_len-1, <=batch_size)
+            # tgt: (max_len-1*<=batch_size, )
+
             batches.append((ctx, inpt, tgt, sel_tgt))
 
         if shuffle:

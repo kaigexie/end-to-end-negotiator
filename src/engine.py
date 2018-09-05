@@ -71,20 +71,23 @@ class Engine(object):
             ctx, inpt, tgt, sel_tgt = batch
 
             # create variables
-            ctx = Variable(ctx)
-            inpt = Variable(inpt)
-            tgt = Variable(tgt)
-            sel_tgt = Variable(sel_tgt)
+            ctx = Variable(ctx) # (6, <=batch_size)
+            inpt = Variable(inpt) # (max_len-1, <=batch_size)
+            tgt = Variable(tgt) # (max_len-1*<=batch_size)
+            sel_tgt = Variable(sel_tgt) # (6*<=batch_size, )
 
             # get context hidden state
-            ctx_h = model.forward_context(ctx)
+            ctx_h = model.forward_context(ctx) # (1, <=batch_size, nhid_ctx)
             # create initial hidden state for the language rnn
-            lang_h = model.zero_hid(ctx_h.size(1), model.args.nhid_lang)
+            lang_h = model.zero_hid(ctx_h.size(1), model.args.nhid_lang) # (1, <=batch_size, nhid_lang)
 
             # perform forward for the language model
             out, lang_h = model.forward_lm(inpt, lang_h, ctx_h)
+            # out: (max_len-1, <=batch_size, vocab_size)
+            # lang_h: (max_len-1, <=batch_size, nhid_lang)
+
             # perform forward for the selection
-            sel_out = model.forward_selection(inpt, lang_h, ctx_h)
+            sel_out = model.forward_selection(inpt, lang_h, ctx_h) # (6*<=batch_size, len(item_dict))
 
             return out, lang_h, tgt, sel_out, sel_tgt
 
@@ -105,6 +108,11 @@ class Engine(object):
             self.t += 1
             # forward pass
             out, hid, tgt, sel_out, sel_tgt = Engine.forward(self.model, batch, requires_grad=True)
+            # out: (max_len-1, <=batch_size, vocab_size)
+            # hid: (max_len-1, <=batch_size, nhid_lang)
+            # tgt: (max_len-1*<=batch_size)
+            # sel_out: (6*<=batch_size, len(item_dict))
+            # sel_tgt: (6*<=batch_size)
 
             # compute LM loss and selection loss
             loss = self.crit(out.view(-1, N), tgt)

@@ -99,20 +99,23 @@ class LstmAgent(Agent):
 
     def feed_context(self, context):
         # the hidden state of all the pronounced words
-        self.lang_hs = []
+        self.lang_hs = [] # th.cat(self.lang_hs): (total_seq_len, 128)
         # all the pronounced words
-        self.words = []
-        self.context = context
+        self.words = [] # th.cat(self.words): (total_seq_len, 1)
+        self.context = context # list, len(context) = 6
         # encoded context
-        self.ctx = self._encode(context, self.model.context_dict)
+        self.ctx = self._encode(context, self.model.context_dict) # (6, 1)
         # hidded state of context
-        self.ctx_h = self.model.forward_context(Variable(self.ctx))
+        self.ctx_h = self.model.forward_context(Variable(self.ctx)) # (1, 1, nhid_ctx)
         # current hidden state of the language rnn
-        self.lang_h = self.model.zero_hid(1)
+        self.lang_h = self.model.zero_hid(1) # (1, 1, 128)
 
     def read(self, inpt):
-        inpt = self._encode(inpt, self.model.word_dict)
+        inpt = self._encode(inpt, self.model.word_dict) # (max_words, 1)
         lang_hs, self.lang_h = self.model.read(Variable(inpt), self.lang_h, self.ctx_h)
+        # lang_hs: (max_words+1, 1, nhid_lang)
+        # self.lang_h: (1, 1, 128)
+
         # append new hidded states to the current list of the hidden states
         self.lang_hs.append(lang_hs.squeeze(1))
         # first add the special 'THEM:' token
@@ -123,8 +126,13 @@ class LstmAgent(Agent):
 
     def write(self):
         # generate a new utterance
+        # _ is logprobs: max_words*(1, ), logprob of each output word
+        # outs: (max_words, 1), output word
+        # self.lang_h: (1, 1, 128), hidden state of last word
+        # lang_hs: (max_words+1, 128), all hidden states, including the final <eos> token
         _, outs, self.lang_h, lang_hs = self.model.write(self.lang_h, self.ctx_h,
             100, self.args.temperature)
+        
         # append new hidded states to the current list of the hidden states
         self.lang_hs.append(lang_hs)
         # first add the special 'YOU:' token
@@ -133,40 +141,41 @@ class LstmAgent(Agent):
         self.words.append(outs)
         assert (torch.cat(self.words).size()[0] == torch.cat(self.lang_hs).size()[0])
         # decode into English words
-        return self._decode(outs, self.model.word_dict)
+        return self._decode(outs, self.model.word_dict) # list of words, str, len = max_words
 
     def _choose(self, lang_hs=None, words=None, sample=False):
         # get all the possible choices
         choices = self.domain.generate_choices(self.context)
         # concatenate the list of the hidden states into one tensor
-        lang_hs = lang_hs if lang_hs is not None else torch.cat(self.lang_hs)
+        lang_hs = lang_hs if lang_hs is not None else torch.cat(self.lang_hs) # (total_seq_len, 128)
         # concatenate all the words into one tensor
-        words = words if words is not None else torch.cat(self.words)
+        words = words if words is not None else torch.cat(self.words) # (total_seq_len, 1)
         # logits for each of the item
-        logits = self.model.generate_choice_logits(words, lang_hs, self.ctx_h)
+        logits = self.model.generate_choice_logits(words, lang_hs, self.ctx_h) # 6*(len(self.item_dict), )
 
         # construct probability distribution over only the valid choices
-        choices_logits = []
+        choices_logits = [] # 6*(option_amount, 1)
         for i in range(self.domain.selection_length()):
             idxs = [self.model.item_dict.get_idx(c[i]) for c in choices]
             idxs = Variable(torch.from_numpy(np.array(idxs)))
-            idxs = self.model.to_device(idxs)
+            idxs = self.model.to_device(idxs) # (option_amount, )
             choices_logits.append(torch.gather(logits[i], 0, idxs).unsqueeze(1))
 
-        choice_logit = torch.sum(torch.cat(choices_logits, 1), 1, keepdim=False)
+        choice_logit = torch.sum(torch.cat(choices_logits, 1), 1, keepdim=False) # (option_amount, )
         # subtract the max to softmax more stable
-        choice_logit = choice_logit.sub(choice_logit.max().item())
+        choice_logit = choice_logit.sub(choice_logit.max().item()) # (option_amount, )
 
         # http://pytorch.apachecn.org/en/0.3.0/_modules/torch/nn/functional.html
         # choice_logit.dim() == 1, so implicitly _get_softmax_dim returns 0
-        prob = F.softmax(choice_logit,dim=0)
+        prob = F.softmax(choice_logit,dim=0) # (option_amount, )
         if sample:
             # sample a choice
+            # FIXME !!!!!!! multinomial need num_samples argument!
             idx = prob.multinomial().detach()
             logprob = F.log_softmax(choice_logit).gather(0, idx)
         else:
             # take the most probably choice
-            _, idx = prob.max(0, keepdim=True)
+            _, idx = prob.max(0, keepdim=True) # idx: (1, )
             logprob = None
 
         p_agree = prob[idx.item()]
@@ -343,7 +352,7 @@ class RlAgent(LstmAgent):
 
     def choose(self):
         if self.args.eps < np.random.rand():
-            choice, _, _ = self._choose(sample=False)
+            choice, _, _ = self._choose(sample=False) # choice: list of strs, len = 6
         else:
             choice, logprob, _ = self._choose(sample=True)
             # save log prob for the selection as well, if we sample it
