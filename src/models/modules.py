@@ -104,16 +104,16 @@ class MlpContextEncoder(CudaModule):
         cnt_idx = Variable(self.to_device(torch.from_numpy(2 * idx + 0)))
         val_idx = Variable(self.to_device(torch.from_numpy(2 * idx + 1)))
 
-        cnt = ctx.index_select(0, cnt_idx)
-        val = ctx.index_select(0, val_idx)
+        cnt = ctx.index_select(0, cnt_idx) # (3, <=batch_size)
+        val = ctx.index_select(0, val_idx) # (3, <=batch_size)
 
         # embed counts and values
-        cnt_emb = self.cnt_enc(cnt)
-        val_emb = self.val_enc(val)
+        cnt_emb = self.cnt_enc(cnt) # (3, <=batch_size, nembed_ctx)
+        val_emb = self.val_enc(val) # (3, <=batch_size, nembed_ctx)
 
         # element wise multiplication to get a hidden state
-        h = torch.mul(cnt_emb, val_emb)
+        h = torch.mul(cnt_emb, val_emb) # (3, <=batch_size, nembed_ctx)
         # run the hidden state through the MLP
-        h = h.transpose(0, 1).contiguous().view(ctx.size(1), -1)
-        ctx_h = self.encoder(h).unsqueeze(0)
+        h = h.transpose(0, 1).contiguous().view(ctx.size(1), -1) # (<=batch_size, 3*nembed_ctx)
+        ctx_h = self.encoder(h).unsqueeze(0) # (1, <=batch_size, nhid_ctx)
         return ctx_h
