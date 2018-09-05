@@ -1,0 +1,138 @@
+2018-09-05 17:00:01,872 : INFO : train.py : Starting training using pytorch version:0.4.1
+2018-09-05 17:00:01,873 : INFO : train.py : CUDA is enabled. Using device_id:0 version:8.0.61 on gpu:TITAN X (Pascal)
+2018-09-05 17:00:01,873 : INFO : train.py : Building word corpus, requiring minimum word frequency of 20 for dictionary
+2018-09-05 17:00:02,412 : INFO : data.py : dataset data/negotiate/train.txt, total 687919, unks 8718, ratio 1.27%
+2018-09-05 17:00:02,440 : INFO : data.py : dataset data/negotiate/val.txt, total 74653, unks 914, ratio 1.22%
+2018-09-05 17:00:02,467 : INFO : data.py : dataset data/negotiate/test.txt, total 70262, unks 847, ratio 1.21%
+2018-09-05 17:00:02,468 : INFO : train.py : Building RNN-based dialogue model from word corpus
+2018-09-05 17:00:04,192 : INFO : train.py : Training model
+2018-09-05 17:00:13,669 : INFO : engine.py : | epoch 001 | train_loss 3.587 | train_ppl 36.125 | s/epoch 7.04 | lr 1.00000000
+2018-09-05 17:00:13,670 : INFO : engine.py : | epoch 001 | valid_loss 2.636 | valid_ppl 13.952
+2018-09-05 17:00:13,670 : INFO : engine.py : | epoch 001 | train_select_loss 1.262 | train_select_ppl 3.534 (check)
+2018-09-05 17:00:13,670 : INFO : engine.py : | epoch 001 | valid_select_loss 1.232 | valid_select_ppl 3.427
+2018-09-05 17:00:23,083 : INFO : engine.py : | epoch 002 | train_loss 2.862 | train_ppl 17.505 | s/epoch 6.93 | lr 1.00000000
+2018-09-05 17:00:23,083 : INFO : engine.py : | epoch 002 | valid_loss 2.293 | valid_ppl 9.904
+2018-09-05 17:00:23,083 : INFO : engine.py : | epoch 002 | train_select_loss 1.200 | train_select_ppl 3.322 (check)
+2018-09-05 17:00:23,083 : INFO : engine.py : | epoch 002 | valid_select_loss 1.195 | valid_select_ppl 3.305
+2018-09-05 17:00:32,349 : INFO : engine.py : | epoch 003 | train_loss 2.643 | train_ppl 14.061 | s/epoch 6.81 | lr 1.00000000
+2018-09-05 17:00:32,349 : INFO : engine.py : | epoch 003 | valid_loss 2.153 | valid_ppl 8.607
+2018-09-05 17:00:32,349 : INFO : engine.py : | epoch 003 | train_select_loss 0.940 | train_select_ppl 2.560 (check)
+2018-09-05 17:00:32,349 : INFO : engine.py : | epoch 003 | valid_select_loss 1.002 | valid_select_ppl 2.723
+2018-09-05 17:00:41,892 : INFO : engine.py : | epoch 004 | train_loss 2.392 | train_ppl 10.940 | s/epoch 7.08 | lr 1.00000000
+2018-09-05 17:00:41,892 : INFO : engine.py : | epoch 004 | valid_loss 2.071 | valid_ppl 7.933
+2018-09-05 17:00:41,892 : INFO : engine.py : | epoch 004 | train_select_loss 0.632 | train_select_ppl 1.882 (check)
+2018-09-05 17:00:41,892 : INFO : engine.py : | epoch 004 | valid_select_loss 0.700 | valid_select_ppl 2.015
+2018-09-05 17:00:51,514 : INFO : engine.py : | epoch 005 | train_loss 2.252 | train_ppl 9.506 | s/epoch 7.08 | lr 1.00000000
+2018-09-05 17:00:51,514 : INFO : engine.py : | epoch 005 | valid_loss 2.052 | valid_ppl 7.787
+2018-09-05 17:00:51,514 : INFO : engine.py : | epoch 005 | train_select_loss 0.569 | train_select_ppl 1.767 (check)
+2018-09-05 17:00:51,514 : INFO : engine.py : | epoch 005 | valid_select_loss 0.574 | valid_select_ppl 1.776
+2018-09-05 17:01:01,197 : INFO : engine.py : | epoch 006 | train_loss 2.176 | train_ppl 8.809 | s/epoch 7.20 | lr 1.00000000
+2018-09-05 17:01:01,197 : INFO : engine.py : | epoch 006 | valid_loss 2.013 | valid_ppl 7.485
+2018-09-05 17:01:01,197 : INFO : engine.py : | epoch 006 | train_select_loss 0.508 | train_select_ppl 1.662 (check)
+2018-09-05 17:01:01,197 : INFO : engine.py : | epoch 006 | valid_select_loss 0.556 | valid_select_ppl 1.743
+2018-09-05 17:01:10,845 : INFO : engine.py : | epoch 007 | train_loss 2.082 | train_ppl 8.018 | s/epoch 7.11 | lr 1.00000000
+2018-09-05 17:01:10,845 : INFO : engine.py : | epoch 007 | valid_loss 1.904 | valid_ppl 6.713
+2018-09-05 17:01:10,845 : INFO : engine.py : | epoch 007 | train_select_loss 0.438 | train_select_ppl 1.550 (check)
+2018-09-05 17:01:10,845 : INFO : engine.py : | epoch 007 | valid_select_loss 0.470 | valid_select_ppl 1.599
+2018-09-05 17:01:20,273 : INFO : engine.py : | epoch 008 | train_loss 2.009 | train_ppl 7.453 | s/epoch 6.95 | lr 1.00000000
+2018-09-05 17:01:20,273 : INFO : engine.py : | epoch 008 | valid_loss 1.896 | valid_ppl 6.656
+2018-09-05 17:01:20,273 : INFO : engine.py : | epoch 008 | train_select_loss 0.416 | train_select_ppl 1.516 (check)
+2018-09-05 17:01:20,273 : INFO : engine.py : | epoch 008 | valid_select_loss 0.437 | valid_select_ppl 1.548
+2018-09-05 17:01:30,222 : INFO : engine.py : | epoch 009 | train_loss 1.973 | train_ppl 7.191 | s/epoch 7.44 | lr 1.00000000
+2018-09-05 17:01:30,222 : INFO : engine.py : | epoch 009 | valid_loss 1.895 | valid_ppl 6.652
+2018-09-05 17:01:30,222 : INFO : engine.py : | epoch 009 | train_select_loss 0.388 | train_select_ppl 1.474 (check)
+2018-09-05 17:01:30,222 : INFO : engine.py : | epoch 009 | valid_select_loss 0.439 | valid_select_ppl 1.551
+2018-09-05 17:01:39,982 : INFO : engine.py : | epoch 010 | train_loss 1.937 | train_ppl 6.941 | s/epoch 7.29 | lr 1.00000000
+2018-09-05 17:01:39,982 : INFO : engine.py : | epoch 010 | valid_loss 1.852 | valid_ppl 6.371
+2018-09-05 17:01:39,982 : INFO : engine.py : | epoch 010 | train_select_loss 0.361 | train_select_ppl 1.434 (check)
+2018-09-05 17:01:39,982 : INFO : engine.py : | epoch 010 | valid_select_loss 0.391 | valid_select_ppl 1.478
+2018-09-05 17:01:49,731 : INFO : engine.py : | epoch 011 | train_loss 1.907 | train_ppl 6.735 | s/epoch 7.26 | lr 1.00000000
+2018-09-05 17:01:49,731 : INFO : engine.py : | epoch 011 | valid_loss 1.844 | valid_ppl 6.324
+2018-09-05 17:01:49,731 : INFO : engine.py : | epoch 011 | train_select_loss 0.364 | train_select_ppl 1.440 (check)
+2018-09-05 17:01:49,731 : INFO : engine.py : | epoch 011 | valid_select_loss 0.423 | valid_select_ppl 1.527
+2018-09-05 17:01:59,636 : INFO : engine.py : | epoch 012 | train_loss 1.874 | train_ppl 6.517 | s/epoch 7.42 | lr 1.00000000
+2018-09-05 17:01:59,636 : INFO : engine.py : | epoch 012 | valid_loss 1.843 | valid_ppl 6.315
+2018-09-05 17:01:59,636 : INFO : engine.py : | epoch 012 | train_select_loss 0.293 | train_select_ppl 1.341 (check)
+2018-09-05 17:01:59,636 : INFO : engine.py : | epoch 012 | valid_select_loss 0.337 | valid_select_ppl 1.400
+2018-09-05 17:02:08,945 : INFO : engine.py : | epoch 013 | train_loss 1.851 | train_ppl 6.363 | s/epoch 6.82 | lr 1.00000000
+2018-09-05 17:02:08,945 : INFO : engine.py : | epoch 013 | valid_loss 1.832 | valid_ppl 6.246
+2018-09-05 17:02:08,945 : INFO : engine.py : | epoch 013 | train_select_loss 0.267 | train_select_ppl 1.306 (check)
+2018-09-05 17:02:08,945 : INFO : engine.py : | epoch 013 | valid_select_loss 0.336 | valid_select_ppl 1.400
+2018-09-05 17:02:18,251 : INFO : engine.py : | epoch 014 | train_loss 1.823 | train_ppl 6.190 | s/epoch 6.82 | lr 1.00000000
+2018-09-05 17:02:18,251 : INFO : engine.py : | epoch 014 | valid_loss 1.907 | valid_ppl 6.730
+2018-09-05 17:02:18,251 : INFO : engine.py : | epoch 014 | train_select_loss 0.243 | train_select_ppl 1.275 (check)
+2018-09-05 17:02:18,251 : INFO : engine.py : | epoch 014 | valid_select_loss 0.312 | valid_select_ppl 1.366
+2018-09-05 17:02:27,822 : INFO : engine.py : | epoch 015 | train_loss 1.796 | train_ppl 6.027 | s/epoch 7.06 | lr 1.00000000
+2018-09-05 17:02:27,822 : INFO : engine.py : | epoch 015 | valid_loss 1.851 | valid_ppl 6.366
+2018-09-05 17:02:27,822 : INFO : engine.py : | epoch 015 | train_select_loss 0.235 | train_select_ppl 1.265 (check)
+2018-09-05 17:02:27,822 : INFO : engine.py : | epoch 015 | valid_select_loss 0.332 | valid_select_ppl 1.393
+2018-09-05 17:02:37,670 : INFO : engine.py : | epoch 016 | train_loss 1.769 | train_ppl 5.864 | s/epoch 7.33 | lr 1.00000000
+2018-09-05 17:02:37,670 : INFO : engine.py : | epoch 016 | valid_loss 1.830 | valid_ppl 6.236
+2018-09-05 17:02:37,671 : INFO : engine.py : | epoch 016 | train_select_loss 0.181 | train_select_ppl 1.199 (check)
+2018-09-05 17:02:37,671 : INFO : engine.py : | epoch 016 | valid_select_loss 0.278 | valid_select_ppl 1.321
+2018-09-05 17:02:47,733 : INFO : engine.py : | epoch 017 | train_loss 1.753 | train_ppl 5.770 | s/epoch 7.57 | lr 1.00000000
+2018-09-05 17:02:47,733 : INFO : engine.py : | epoch 017 | valid_loss 1.808 | valid_ppl 6.097
+2018-09-05 17:02:47,733 : INFO : engine.py : | epoch 017 | train_select_loss 0.181 | train_select_ppl 1.198 (check)
+2018-09-05 17:02:47,733 : INFO : engine.py : | epoch 017 | valid_select_loss 0.230 | valid_select_ppl 1.258
+2018-09-05 17:02:57,394 : INFO : engine.py : | epoch 018 | train_loss 1.734 | train_ppl 5.662 | s/epoch 7.18 | lr 1.00000000
+2018-09-05 17:02:57,394 : INFO : engine.py : | epoch 018 | valid_loss 1.859 | valid_ppl 6.416
+2018-09-05 17:02:57,394 : INFO : engine.py : | epoch 018 | train_select_loss 0.127 | train_select_ppl 1.135 (check)
+2018-09-05 17:02:57,395 : INFO : engine.py : | epoch 018 | valid_select_loss 0.208 | valid_select_ppl 1.232
+2018-09-05 17:03:06,909 : INFO : engine.py : | epoch 019 | train_loss 1.713 | train_ppl 5.546 | s/epoch 7.03 | lr 1.00000000
+2018-09-05 17:03:06,909 : INFO : engine.py : | epoch 019 | valid_loss 1.797 | valid_ppl 6.030
+2018-09-05 17:03:06,909 : INFO : engine.py : | epoch 019 | train_select_loss 0.122 | train_select_ppl 1.130 (check)
+2018-09-05 17:03:06,909 : INFO : engine.py : | epoch 019 | valid_select_loss 0.243 | valid_select_ppl 1.275
+2018-09-05 17:03:16,271 : INFO : engine.py : | epoch 020 | train_loss 1.704 | train_ppl 5.494 | s/epoch 6.88 | lr 1.00000000
+2018-09-05 17:03:16,272 : INFO : engine.py : | epoch 020 | valid_loss 1.818 | valid_ppl 6.161
+2018-09-05 17:03:16,272 : INFO : engine.py : | epoch 020 | train_select_loss 0.122 | train_select_ppl 1.129 (check)
+2018-09-05 17:03:16,272 : INFO : engine.py : | epoch 020 | valid_select_loss 0.211 | valid_select_ppl 1.234
+2018-09-05 17:03:25,756 : INFO : engine.py : | epoch 021 | train_loss 1.688 | train_ppl 5.409 | s/epoch 6.99 | lr 1.00000000
+2018-09-05 17:03:25,756 : INFO : engine.py : | epoch 021 | valid_loss 1.833 | valid_ppl 6.254
+2018-09-05 17:03:25,756 : INFO : engine.py : | epoch 021 | train_select_loss 0.108 | train_select_ppl 1.114 (check)
+2018-09-05 17:03:25,756 : INFO : engine.py : | epoch 021 | valid_select_loss 0.209 | valid_select_ppl 1.232
+2018-09-05 17:03:35,255 : INFO : engine.py : | epoch 022 | train_loss 1.676 | train_ppl 5.346 | s/epoch 6.99 | lr 1.00000000
+2018-09-05 17:03:35,255 : INFO : engine.py : | epoch 022 | valid_loss 1.799 | valid_ppl 6.043
+2018-09-05 17:03:35,255 : INFO : engine.py : | epoch 022 | train_select_loss 0.100 | train_select_ppl 1.105 (check)
+2018-09-05 17:03:35,255 : INFO : engine.py : | epoch 022 | valid_select_loss 0.225 | valid_select_ppl 1.252
+2018-09-05 17:03:44,979 : INFO : engine.py : | epoch 023 | train_loss 1.661 | train_ppl 5.267 | s/epoch 7.24 | lr 1.00000000
+2018-09-05 17:03:44,979 : INFO : engine.py : | epoch 023 | valid_loss 1.791 | valid_ppl 5.993
+2018-09-05 17:03:44,979 : INFO : engine.py : | epoch 023 | train_select_loss 0.086 | train_select_ppl 1.090 (check)
+2018-09-05 17:03:44,980 : INFO : engine.py : | epoch 023 | valid_select_loss 0.184 | valid_select_ppl 1.202
+2018-09-05 17:03:54,711 : INFO : engine.py : | epoch 024 | train_loss 1.651 | train_ppl 5.210 | s/epoch 7.25 | lr 1.00000000
+2018-09-05 17:03:54,711 : INFO : engine.py : | epoch 024 | valid_loss 1.780 | valid_ppl 5.930
+2018-09-05 17:03:54,712 : INFO : engine.py : | epoch 024 | train_select_loss 0.082 | train_select_ppl 1.086 (check)
+2018-09-05 17:03:54,712 : INFO : engine.py : | epoch 024 | valid_select_loss 0.181 | valid_select_ppl 1.198
+2018-09-05 17:04:04,017 : INFO : engine.py : | epoch 025 | train_loss 1.638 | train_ppl 5.146 | s/epoch 6.85 | lr 1.00000000
+2018-09-05 17:04:04,017 : INFO : engine.py : | epoch 025 | valid_loss 1.795 | valid_ppl 6.019
+2018-09-05 17:04:04,017 : INFO : engine.py : | epoch 025 | train_select_loss 0.065 | train_select_ppl 1.068 (check)
+2018-09-05 17:04:04,017 : INFO : engine.py : | epoch 025 | valid_select_loss 0.179 | valid_select_ppl 1.196
+2018-09-05 17:04:13,399 : INFO : engine.py : | epoch 026 | train_loss 1.630 | train_ppl 5.106 | s/epoch 6.89 | lr 1.00000000
+2018-09-05 17:04:13,399 : INFO : engine.py : | epoch 026 | valid_loss 1.787 | valid_ppl 5.971
+2018-09-05 17:04:13,399 : INFO : engine.py : | epoch 026 | train_select_loss 0.057 | train_select_ppl 1.059 (check)
+2018-09-05 17:04:13,399 : INFO : engine.py : | epoch 026 | valid_select_loss 0.160 | valid_select_ppl 1.173
+2018-09-05 17:04:22,755 : INFO : engine.py : | epoch 027 | train_loss 1.622 | train_ppl 5.063 | s/epoch 6.88 | lr 1.00000000
+2018-09-05 17:04:22,755 : INFO : engine.py : | epoch 027 | valid_loss 1.770 | valid_ppl 5.872
+2018-09-05 17:04:22,755 : INFO : engine.py : | epoch 027 | train_select_loss 0.054 | train_select_ppl 1.056 (check)
+2018-09-05 17:04:22,755 : INFO : engine.py : | epoch 027 | valid_select_loss 0.187 | valid_select_ppl 1.205
+2018-09-05 17:04:32,014 : INFO : engine.py : | epoch 028 | train_loss 1.610 | train_ppl 5.002 | s/epoch 6.81 | lr 1.00000000
+2018-09-05 17:04:32,014 : INFO : engine.py : | epoch 028 | valid_loss 1.786 | valid_ppl 5.963
+2018-09-05 17:04:32,014 : INFO : engine.py : | epoch 028 | train_select_loss 0.043 | train_select_ppl 1.044 (check)
+2018-09-05 17:04:32,014 : INFO : engine.py : | epoch 028 | valid_select_loss 0.184 | valid_select_ppl 1.202
+2018-09-05 17:04:41,307 : INFO : engine.py : | epoch 029 | train_loss 1.598 | train_ppl 4.945 | s/epoch 6.81 | lr 1.00000000
+2018-09-05 17:04:41,307 : INFO : engine.py : | epoch 029 | valid_loss 1.798 | valid_ppl 6.038
+2018-09-05 17:04:41,308 : INFO : engine.py : | epoch 029 | train_select_loss 0.045 | train_select_ppl 1.046 (check)
+2018-09-05 17:04:41,308 : INFO : engine.py : | epoch 029 | valid_select_loss 0.181 | valid_select_ppl 1.198
+2018-09-05 17:04:50,653 : INFO : engine.py : | epoch 030 | train_loss 1.593 | train_ppl 4.920 | s/epoch 6.83 | lr 1.00000000
+2018-09-05 17:04:50,653 : INFO : engine.py : | epoch 030 | valid_loss 1.789 | valid_ppl 5.983
+2018-09-05 17:04:50,653 : INFO : engine.py : | epoch 030 | train_select_loss 0.037 | train_select_ppl 1.038 (check)
+2018-09-05 17:04:50,653 : INFO : engine.py : | epoch 030 | valid_select_loss 0.175 | valid_select_ppl 1.192
+2018-09-05 17:04:50,653 : INFO : engine.py : | start annealing | best validselectloss 0.160 | best validselectppl 1.173
+2018-09-05 17:04:59,840 : INFO : engine.py : | epoch 031 | train_loss 1.547 | train_ppl 4.698 | s/epoch 6.70 | lr 0.20000000
+2018-09-05 17:04:59,840 : INFO : engine.py : | epoch 031 | valid_loss 1.740 | valid_ppl 5.697
+2018-09-05 17:04:59,840 : INFO : engine.py : | epoch 031 | train_select_loss 0.037 | train_select_ppl 1.037 (check)
+2018-09-05 17:04:59,840 : INFO : engine.py : | epoch 031 | valid_select_loss 0.143 | valid_select_ppl 1.154
+2018-09-05 17:05:09,528 : INFO : engine.py : | epoch 032 | train_loss 1.523 | train_ppl 4.587 | s/epoch 7.18 | lr 0.04000000
+2018-09-05 17:05:09,528 : INFO : engine.py : | epoch 032 | valid_loss 1.738 | valid_ppl 5.686
+2018-09-05 17:05:09,528 : INFO : engine.py : | epoch 032 | train_select_loss 0.035 | train_select_ppl 1.035 (check)
+2018-09-05 17:05:09,528 : INFO : engine.py : | epoch 032 | valid_select_loss 0.148 | valid_select_ppl 1.160
+2018-09-05 17:05:09,531 : INFO : train.py : final select_ppl 1.160

@@ -166,10 +166,12 @@ class Engine(object):
         """Performs on iteration of the training.
         Runs one epoch on the training and validation datasets.
         """
-        trainset, _ = traindata
+        # trainset, _ = traindata
+        trainset, trainset_stats = traindata
         validset, validset_stats = validdata
 
         train_loss, train_time = self.train_pass(N, trainset)
+        check_train_loss, check_train_select_loss = self.valid_pass(N, trainset, trainset_stats)
         valid_loss, valid_select_loss = self.valid_pass(N, validset, validset_stats)
 
         if self.verbose:
@@ -177,6 +179,8 @@ class Engine(object):
                 epoch, train_loss, np.exp(train_loss), train_time, lr))
             logging.info('| epoch %03d | valid_loss %.3f | valid_ppl %.3f' % (
                 epoch, valid_loss, np.exp(valid_loss)))
+            logging.info('| epoch %03d | train_select_loss %.3f | train_select_ppl %.3f (check)' % (
+                epoch, check_train_select_loss, np.exp(check_train_select_loss)))
             logging.info('| epoch %03d | valid_select_loss %.3f | valid_select_ppl %.3f' % (
                 epoch, valid_select_loss, np.exp(valid_select_loss)))
 
