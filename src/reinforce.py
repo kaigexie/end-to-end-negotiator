@@ -13,6 +13,7 @@ import random
 import re
 import time
 import logging
+import os
 import numpy as np
 import torch
 from torch import optim
@@ -23,21 +24,33 @@ import config
 import data
 import utils
 from engine import Engine
-from utils import ContextGenerator
+from utils import ContextGenerator, ContextGeneratorEval
 from agent import LstmAgent, LstmRolloutAgent, RlAgent
-from dialog import Dialog, DialogLogger
+from dialog import Dialog, DialogEval, DialogLogger
+from record import record
 
 logging.basicConfig(format=config.log_format, level=config.log_level)
 
 class Reinforce(object):
     """Facilitates a dialogue between two agents and constantly updates them."""
-    def __init__(self, dialog, ctx_gen, args, engine, corpus, logger=None):
+    def __init__(self, dialog, ctx_gen, args, engine, corpus, dialog_eval, ctx_gen_eval, logger=None):
         self.dialog = dialog
         self.ctx_gen = ctx_gen
         self.args = args
         self.engine = engine
         self.corpus = corpus
+        self.dialog_eval = dialog_eval
+        self.ctx_gen_eval = ctx_gen_eval
         self.logger = logger if logger else DialogLogger()
+
+        # record
+        self.record_func = record
+        if self.args.record_freq > 0:
+            if not os.path.exists(self.args.record_path):
+                os.mkdir(self.args.record_path)
+            self.ppl_exp_file = open(os.path.join(self.args.record_path, 'ppl.log'), 'w')
+            self.rl_exp_file = open(os.path.join(self.args.record_path, 'rl.log'), 'w')
+            self.text_exp_file = open(os.path.join(self.args.record_path, 'text.json'), 'w')
 
     def run(self):
         """Entry point of the training."""
@@ -62,6 +75,12 @@ class Reinforce(object):
             if n % 100 == 0:
                 self.logger.dump('%d: %s' % (n, self.dialog.show_metrics()), forced=True)
                 logging.info('%d: %s' % (n, self.dialog.show_metrics()))
+
+            if self.args.record_freq > 0 and n % self.args.record_freq == 0:
+                print('-'*15, 'Recording start', '-'*15)
+                self.record_func(n, self.engine, N, validset, validset_stats, self.ppl_exp_file, \
+                                    self.dialog_eval, self.ctx_gen_eval, self.rl_exp_file, self.text_exp_file)
+                print('-'*15, 'Recording end', '-'*15)
 
         def dump_stats(dataset, stats, name):
             loss, select_loss = self.engine.valid_pass(N, dataset, stats)
@@ -134,6 +153,12 @@ def main():
         help='plot graphs')
     parser.add_argument('--domain', type=str, default=config.domain,
         help='domain for the dialogue')
+    parser.add_argument('--record_freq', type=int, default=50,
+        help='record frequency')
+    parser.add_argument('--record_path', type=str,
+        help='record path')
+    parser.add_argument('--selfplay_eval_path', type=str, 
+        help='selfplay path for evaluation')
     args = parser.parse_args()
 
     device_id = utils.use_cuda(args.cuda)
@@ -161,12 +186,16 @@ def main():
     logger = DialogLogger(verbose=args.verbose, log_file=args.log_file)
     ctx_gen = ContextGenerator(args.context_file)
 
+    # simulation module
+    dialog_eval = DialogEval([alice, bob], args)
+    ctx_gen_eval = ContextGeneratorEval(args.selfplay_path)
+
     logging.info("Building word corpus, requiring minimum word frequency of %d for dictionary" % (args.unk_threshold))
     corpus = data.WordCorpus(args.data, freq_cutoff=args.unk_threshold)
     engine = Engine(alice_model, args, device_id, verbose=False)
 
     logging.info("Starting Reinforcement Learning")
-    reinforce = Reinforce(dialog, ctx_gen, args, engine, corpus, logger)
+    reinforce = Reinforce(dialog, ctx_gen, args, engine, corpus, dialog_eval, ctx_gen_eval, logger)
     reinforce.run()
 
     logging.info("Saving updated Alice model to %s" % (args.output_model_file))

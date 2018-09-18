@@ -84,6 +84,20 @@ class ContextGenerator(object):
                 yield ctx
 
 
+class ContextGenerator(object):
+    """Dialogue context generator. Generates contexes from the file."""
+    def __init__(self, context_file):
+        self.ctxs = []
+        with open(context_file, 'r') as f:
+            ctx_pair = []
+            for line in f:
+                ctx = line.strip().split()
+                ctx_pair.append(ctx)
+                if len(ctx_pair) == 2:
+                    self.ctxs.append(ctx_pair)
+                    ctx_pair = []
+
+
 class ManualContextGenerator(object):
     """Dialogue context generator. Takes contexes from stdin."""
     def __init__(self, num_types=3, num_objects=10, max_score=10):

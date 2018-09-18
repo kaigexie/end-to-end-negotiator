@@ -5,4 +5,5 @@ src/images/.DS_Store
 src/models/.DS_Store
 src/data/.DS_Store
 src/data/negotiate/.DS_Store
+src/log/.DS_Store
 .*.swp

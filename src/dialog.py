@@ -161,6 +161,11 @@ class Dialog(object):
         else:
             reader, writer = self.agents
 
+        print('-'*50)
+        # beginner's name
+        begin_name = writer.name
+        print('begin_name = {}'.format(begin_name))
+
         conv = []
         # reset metrics
         self.metrics.reset()
@@ -168,6 +173,8 @@ class Dialog(object):
         while True:
             # produce an utterance
             out = writer.write() # list of words, str, len = max_words
+
+            print('\t{} out_words = {}'.format(writer.name, out))
 
             self.metrics.record('sent_len', len(out))
             self.metrics.record('full_match', out)
@@ -193,10 +200,17 @@ class Dialog(object):
             choices.append(choice)
             logger.dump_choice(agent.name, choice[: self.domain.selection_length() // 2])
 
+        print('ctxs = {}'.format(ctxs))
+        print('choices = {}'.format(choices))
+
         # evaluate the choices, produce agreement and a reward
         agree, rewards = self.domain.score_choices(choices, ctxs)
         logger.dump('-' * 80)
         logger.dump_agreement(agree)
+
+        print('agree = {}'.format(agree))
+        print('rewards = {}'.format(rewards))
+
         # perform update, in case if any of the agents is learnable
         for agent, reward in zip(self.agents, rewards):
             logger.dump_reward(agent.name, agree, reward)
@@ -212,10 +226,82 @@ class Dialog(object):
         for agent, reward in zip(self.agents, rewards):
             self.metrics.record('%s_rew' % agent.name, reward if agree else 0)
 
+        print(self.show_metrics())
         logger.dump('-' * 80)
         logger.dump(self.show_metrics())
         logger.dump('-' * 80)
         for ctx, choice in zip(ctxs, choices):
             logger.dump('debug: %s %s' % (' '.join(ctx), ' '.join(choice)))
+
+        return conv, agree, rewards
+
+
+class DialogEval(object):
+    def __init__(self, agents, args):
+        assert len(agents) == 2
+        self.agents = agents
+        self.args = args
+        self.domain = domain.get_domain(args.domain)
+
+    def _is_selection(self, out):
+        return len(out) == 1 and out[0] == '<selection>'
+
+    def run(self, ctxs):
+        assert len(self.agents) == len(ctxs)
+        # initialize agents by feeding in the contexes
+        for agent, ctx in zip(self.agents, ctxs):
+            # if agent.name == 'Alice':
+            #     agent.model.eval()
+            agent.feed_context(ctx)
+
+        # choose who goes first by random
+        if np.random.rand() < 0.5:
+            writer, reader = self.agents
+        else:
+            reader, writer = self.agents
+
+        # print('-'*50)
+        # beginner's name
+        # begin_name = writer.name
+        # print('begin_name = {}'.format(begin_name))
+
+        conv = []
+
+        while True:
+            # produce an utterance
+            out = writer.write() # list of words, str, len = max_words
+
+            # print('\t{} out_words = {}'.format(writer.name, out))
+
+            # append the utterance to the conversation
+            conv.append((writer.name, out))
+            # make the other agent to read it
+            reader.read(out)
+            # check if the end of the conversation was generated
+            if self._is_selection(out):
+                break
+            writer, reader = reader, writer
+
+        choices = []
+        # generate choices for each of the agents
+        for agent in self.agents:
+            choice = agent.choose()
+            choices.append(choice)
+            # if agent.name == 'Alice':
+            #     agent.model.train()
+            
+
+        # print('ctxs = {}'.format(ctxs))
+        # print('choices = {}'.format(choices))
+
+        # evaluate the choices, produce agreement and a reward
+        agree, rewards = self.domain.score_choices(choices, ctxs)
+
+        # print('agree = {}'.format(agree))
+        # print('rewards = {}'.format(rewards))
+
+        # perform update, in case if any of the agents is learnable
+        # for agent, reward in zip(self.agents, rewards):
+        #     agent.update(agree, reward)
 
         return conv, agree, rewards
