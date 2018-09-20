@@ -227,13 +227,18 @@ class Dialog(object):
             self.metrics.record('%s_rew' % agent.name, reward if agree else 0)
 
         print(self.show_metrics())
+
+        stats = dict()
+        stats['alice_rew'] = self.metrics.metrics['alice_rew'].show()
+        stats['alice_unique'] = self.metrics.metrics['alice_unique'].show()
+
         logger.dump('-' * 80)
         logger.dump(self.show_metrics())
         logger.dump('-' * 80)
         for ctx, choice in zip(ctxs, choices):
             logger.dump('debug: %s %s' % (' '.join(ctx), ' '.join(choice)))
 
-        return conv, agree, rewards
+        return conv, agree, rewards, stats
 
 
 class DialogEval(object):

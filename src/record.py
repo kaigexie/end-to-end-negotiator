@@ -32,7 +32,7 @@ def record(n_epsd, engine, N, validset, validset_stats, ppl_f, dialog, ctx_gen, 
 
 
 def record_ppl(n_epsd, engine, N, validset, validset_stats, ppl_f):
-    loss, select_loss = engine.valid_pass(N, validset, validset_stats)
+    loss, select_loss = engine.valid_pass(N, validset, validset_stats, rl=True)
     aver_ppl = np.exp(loss)
     ppl_f.write('{}\t{}\n'.format(n_epsd, aver_ppl))
     ppl_f.flush()

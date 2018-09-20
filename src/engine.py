@@ -54,6 +54,7 @@ class Engine(object):
             momentum=self.args.momentum,
             nesterov=(self.args.nesterov and self.args.momentum > 0))
         self.crit = Criterion(self.model.word_dict, device_id=device_id)
+        self.crit_eval = Criterion(self.model.word_dict, device_id=device_id, bad_toks=['YOU:', 'THEM:', '<selection>'])
         self.sel_crit = Criterion(
             self.model.item_dict, device_id=device_id, bad_toks=['<disconnect>', '<disagree>'])
         if self.args.visual:
@@ -144,7 +145,7 @@ class Engine(object):
         self.opt.step()
         return loss
 
-    def valid_pass(self, N, validset, validset_stats):
+    def valid_pass(self, N, validset, validset_stats, rl=False):
         """Validation pass."""
         # put the model into the evaluation mode
         self.model.eval()
@@ -155,7 +156,10 @@ class Engine(object):
             out, hid, tgt, sel_out, sel_tgt = Engine.forward(self.model, batch, requires_grad=False)
 
             # evaluate LM and selection losses
-            valid_loss += tgt.size(0) * self.crit(out.view(-1, N), tgt).item()
+            if not rl:
+                valid_loss += tgt.size(0) * self.crit(out.view(-1, N), tgt).item()
+            else:
+                valid_loss += tgt.size(0) * self.crit_eval(out.view(-1, N), tgt).item()
             select_loss += self.sel_crit(sel_out, sel_tgt).item()
 
         # dividing by the number of words in the input, not the tokens modeled,

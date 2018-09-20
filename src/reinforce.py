@@ -51,6 +51,7 @@ class Reinforce(object):
             self.ppl_exp_file = open(os.path.join(self.args.record_path, 'ppl.log'), 'w')
             self.rl_exp_file = open(os.path.join(self.args.record_path, 'rl.log'), 'w')
             self.text_exp_file = open(os.path.join(self.args.record_path, 'text.json'), 'w')
+            self.learning_exp_file = open(os.path.join(self.args.record_path, 'learning.log'), 'w')
 
     def run(self):
         """Entry point of the training."""
@@ -69,7 +70,11 @@ class Reinforce(object):
 
             self.logger.dump('=' * 80)
             # run dialogue, it is responsible for reinforcing the agents
-            self.dialog.run(ctxs, self.logger)
+            _, _, rl_reward, rl_stats = self.dialog.run(ctxs, self.logger)
+            alice_rew, alice_unique = rl_stats['alice_rew'], rl_stats['alice_unique'] 
+            if self.args.record_freq > 0 and n % self.args.record_freq == 0:
+                self.learning_exp_file.write('{}\t{}\t{}\n'.format(n, alice_rew, alice_unique))
+                self.learning_exp_file.flush()
             self.logger.dump('=' * 80)
             self.logger.dump('')
             if n % 100 == 0:
@@ -188,7 +193,7 @@ def main():
 
     # simulation module
     dialog_eval = DialogEval([alice, bob], args)
-    ctx_gen_eval = ContextGeneratorEval(args.selfplay_path)
+    ctx_gen_eval = ContextGeneratorEval(args.selfplay_eval_path)
 
     logging.info("Building word corpus, requiring minimum word frequency of %d for dictionary" % (args.unk_threshold))
     corpus = data.WordCorpus(args.data, freq_cutoff=args.unk_threshold)

@@ -84,7 +84,7 @@ class ContextGenerator(object):
                 yield ctx
 
 
-class ContextGenerator(object):
+class ContextGeneratorEval(object):
     """Dialogue context generator. Generates contexes from the file."""
     def __init__(self, context_file):
         self.ctxs = []
